@@ -6,12 +6,12 @@ interface NavLinksProps {
 }
 
 const NavLinks = ({ mobile = false }: NavLinksProps) => {
-  const { navLinks } = useNavigation()
+  const { navLinks, isCurrentPage } = useNavigation()
 
   return (
     <>
-      {navLinks.map(({ href, isCurrentPage, title }) => (
-        <NavLink href={href} isCurrentPage={isCurrentPage} key={href} mobile={mobile}>{title}</NavLink>
+      {navLinks.map((navLink) => (
+        <NavLink href={navLink.href} isCurrentPage={isCurrentPage(navLink)} key={navLink.href} mobile={mobile}>{navLink.title}</NavLink>
       ))}
     </>
   )

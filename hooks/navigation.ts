@@ -1,29 +1,27 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 
-const navLinksArray = [{
-  href: '/',
-  isCurrentPage: true,
-  title: 'Dashboard'
-}, {
-  href: '/team',
-  isCurrentPage: false,
-  title: 'Team'
-}, {
-  href: '/projects',
-  isCurrentPage: false,
-  title: 'Projects'
-}, {
-  href: '/calendar',
-  isCurrentPage: false,
-  title: 'Calendar'
-}, {
-  href: '/reports',
-  isCurrentPage: false,
-  title: 'Reports'
-}]
+interface NavLinkOption {
+  href: string
+  title: string
+  isCurrentPage: boolean
+}
+const navLinkOption = (href: string, title: string, path: string): NavLinkOption => ({ href, isCurrentPage: href === path, title })
+
+const navLinksFactory = (path: string) => {
+  return [
+    navLinkOption('/', 'Dashboard', path),
+    navLinkOption('/liveKit', 'LiveKit', path),
+    navLinkOption('/openTok', 'OpenTok', path)
+  ]
+}
 
 export default function useNavigation() {
-  const [navLinks] = useState(navLinksArray)
+  const { asPath } = useRouter()
+  const [navLinks] = useState(navLinksFactory(asPath))
 
-  return { navLinks }
+  const isCurrentPage = (navLink: NavLinkOption) => navLink.href === asPath
+  const currentNavLink = () => navLinks.find(n => n.href === asPath)
+
+  return { navLinks, currentNavLink, isCurrentPage }
 }
