@@ -1,7 +1,6 @@
-import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import User from "lib/models/user";
-import { sessionOptions } from "lib/session";
+import withSession from "lib/session";
 
 const loginRoute = async (req: NextApiRequest, res: NextApiResponse<User|Error>) => {
   let username, password
@@ -22,4 +21,4 @@ const loginRoute = async (req: NextApiRequest, res: NextApiResponse<User|Error>)
   res.json(user)
 }
 
-export default withIronSessionApiRoute(loginRoute, sessionOptions)
+export default withSession(loginRoute)

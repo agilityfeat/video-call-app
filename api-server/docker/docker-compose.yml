@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  redis:
+    container_name: video-call-server-redis
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+  db:
+    container_name: video-call-server-db
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/video-call-app/data
+volumes:
+  db:
+    driver: local

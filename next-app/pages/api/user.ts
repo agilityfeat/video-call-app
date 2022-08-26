@@ -1,9 +1,8 @@
-import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 import User from "../../lib/models/user";
-import { sessionOptions } from "../../lib/session";
+import withSession from "../../lib/session";
 
-export default withIronSessionApiRoute((req: NextApiRequest, res: NextApiResponse<User>) => {
+export default withSession((req: NextApiRequest, res: NextApiResponse<User>) => {
   if (req.session.user) {
     res.json({
       ...req.session.user,
@@ -15,4 +14,4 @@ export default withIronSessionApiRoute((req: NextApiRequest, res: NextApiRespons
       username: null
     })
   }
-}, sessionOptions)
+})
